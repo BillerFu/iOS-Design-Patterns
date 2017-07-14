@@ -29,6 +29,6 @@
  *
  *  @param request 请求
  */
-- (void)handlerRequest:(id)request;
+- (void)handlerRequest:(id)request finishHandle:(void (^)(NSString *string))finishHandle;
 
 @end

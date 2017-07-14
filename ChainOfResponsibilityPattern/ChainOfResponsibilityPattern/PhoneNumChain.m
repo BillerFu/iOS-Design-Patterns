@@ -9,10 +9,12 @@
 #import "PhoneNumChain.h"
 #import "RegExCategories.h"
 
+typedef void (^finishedHandle)(NSString *string);
+
 @interface PhoneNumChain ()
 
 @property (nonatomic, weak) id <ChainOfResponsibilityProtocol> nextSuccessor;
-
+@property (nonatomic, copy) finishedHandle completionBlock;
 @end
 
 @implementation PhoneNumChain
@@ -27,7 +29,7 @@
     return self.nextSuccessor;
 }
 
-- (void)handlerRequest:(id)request {
+- (void)handlerRequest:(id)request finishHandle:(finishedHandle)finishHandle{
 
     NSString *string = request;
     
@@ -39,10 +41,16 @@
         if (isMatch) {
             
             NSLog(@"%@ 是电话号码", string);
-            
+
+            if (finishHandle) {
+                finishHandle(@"1");
+            }
+
         } else {
         
-            [self.successor handlerRequest:request];
+            [self.successor handlerRequest:request finishHandle:^(NSString *string) {
+                finishHandle(string);
+            }];
         }
     }
 }

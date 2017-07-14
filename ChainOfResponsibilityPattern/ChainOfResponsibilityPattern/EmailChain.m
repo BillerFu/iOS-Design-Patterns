@@ -27,7 +27,7 @@
     return self.nextSuccessor;
 }
 
-- (void)handlerRequest:(id)request {
+- (void)handlerRequest:(id)request finishHandle:(void (^)(NSString *))finishHandle{
     
     NSString *string = request;
     
@@ -40,9 +40,14 @@
             
             NSLog(@"%@ 是邮箱", string);
             
+            if (finishHandle) {
+                finishHandle(@"2");
+            }
         } else {
             
-            [self.successor handlerRequest:request];
+            [self.successor handlerRequest:request finishHandle:^(NSString *string) {
+                finishHandle(string);
+            }];
         }
     }
 }

@@ -26,7 +26,7 @@
     return self.nextSuccessor;
 }
 
-- (void)handlerRequest:(id)request {
+- (void)handlerRequest:(id)request finishHandle:(void (^)(NSString *))finishHandle{
     
     NSLog(@"此任务没有责任链可以处理");
 }

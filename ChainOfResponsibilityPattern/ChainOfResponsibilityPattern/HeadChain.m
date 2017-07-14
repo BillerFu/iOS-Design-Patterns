@@ -26,9 +26,11 @@
     return self.nextSuccessor;
 }
 
-- (void)handlerRequest:(id)request {
+- (void)handlerRequest:(id)request finishHandle:(void (^)(NSString *))finishHandle{
     
-    [self.successor handlerRequest:request];
+    [self.successor handlerRequest:request finishHandle:^(NSString *string) {
+        finishHandle(string);
+    }];
 }
 
 @end

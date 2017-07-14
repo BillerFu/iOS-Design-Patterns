@@ -30,6 +30,7 @@
     [super viewDidLoad];
  
     // 创建责任链对象
+    // 创建对象数据模型构造器
     self.headChain     = [[HeadChain alloc] init];
     self.phoneNumChain = [[PhoneNumChain alloc] init];
     self.emailChain    = [[EmailChain alloc] init];
@@ -43,10 +44,35 @@
     self.userNameChain.successor = self.endChain;
     
     // 处理事件
-    [self.headChain handlerRequest:@"15910514636"];
-    [self.headChain handlerRequest:@"705786299@qq.com"];
-    [self.headChain handlerRequest:@"705786230"];
-    [self.headChain handlerRequest:@"---"];
+    [self.headChain handlerRequest:@"---" finishHandle:^(NSString *string) {
+        [self viewBuilder:string];
+    }];
+    [self.headChain handlerRequest:@"705786230" finishHandle:^(NSString *string) {
+        [self viewBuilder:string];
+    }];
+    [self.headChain handlerRequest:@"15910514636" finishHandle:^(NSString *string) {
+        [self viewBuilder:string];
+    }];
+    [self.headChain handlerRequest:@"705786299@qq.com" finishHandle:^(NSString *string) {
+        [self viewBuilder:string];
+    }];
+}
+
+- (void)viewBuilder:(NSString *)string {
+    NSLog(@"str:%@",string);
+    if ([string isEqualToString:@"1"]) {
+        UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
+        subView.backgroundColor = [UIColor redColor];
+        [self.view addSubview:subView];
+    }else if ([string isEqualToString:@"2"]) {
+        UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(60, 60, 50, 50)];
+        subView.backgroundColor = [UIColor yellowColor];
+        [self.view addSubview:subView];
+    }else if ([string isEqualToString:@"3"]) {
+        UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(110, 110, 50, 50)];
+        subView.backgroundColor = [UIColor blueColor];
+        [self.view addSubview:subView];
+    }
 }
 
 @end
